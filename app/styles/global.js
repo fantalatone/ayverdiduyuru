@@ -6,10 +6,18 @@ export const globalStyles = StyleSheet.create({
         paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     },
     header: {
-        alignItems: "center",
-        paddingVertical: 25
     },
-    headerLogo: {
-        height: 80,
+    headerNav: {
+        flexDirection: "row",
+        justifyContent: "space-around",
+        alignItems: "center",
+        height: 35
+    },
+    headerNavItem: {
+        fontSize: 20
+    },
+    feedTitle: {
+        textAlign: "center",
+        fontSize: 28,
     }
 });
