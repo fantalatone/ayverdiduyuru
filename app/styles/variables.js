@@ -1,5 +1,4 @@
-const variables = {
-    primaryColor: "#F0A200"
+export default {
+    primaryColor: "#F0A200",
+    textColor: "#555"
 };
-
-export default variables;
