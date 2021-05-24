@@ -9,10 +9,6 @@ const fs = require("fs");
 router.get("/cek", (req, res) => {
     announcement.find({}).then(announcements => {
         if (announcements.length != 0) {
-            res.set({
-                "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "*",
-            });
             return res.send(announcements)
         }
         res.send([]);
@@ -39,9 +35,11 @@ router.post("/yeni", upload.single("banner"), (req, res) => {
         }
         
         const newAnn = new announcement({
+            type: "_duyuru",
             title: title,
             content: content,
-            banner: finalBanner
+            banner: finalBanner,
+            date: Date.now()
         });
 
         newAnn.save();
@@ -72,6 +70,7 @@ router.post("/guncelle", upload.single("banner"), (req, res) => {
         if (title) update.title = title;
         if (content) update.content = content;
         if (finalBanner.data) update.banner = finalBanner;
+        update.date = Date.now();
 
         announcement.findOneAndUpdate({ _id: _id }, update, { upsert: true, useFindAndModify: false })
             .catch(err => {throw err;});

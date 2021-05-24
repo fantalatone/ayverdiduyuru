@@ -17,7 +17,7 @@ export default function Header({ navigation, title }) {
                 paddingHorizontal: 45,
                 paddingVertical: 16,
                 textAlignVertical: "center",
-                color: variables.primaryColor
+                color: variables.primaryColor,
             }
         }
         return {
@@ -49,6 +49,6 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: "row",
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
     },
 });

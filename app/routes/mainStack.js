@@ -5,7 +5,9 @@ import FeedDetailsScreen from "../screens/feedDetails";
 import AskQuestionScreen from "../screens/askquestion";
 import ProfileScreen from "../screens/profile";
 import Header from "../shared/header";
+import variables from "../styles/variables"
 import React from "react";
+import QuestionsDetailsScreen from "../screens/questionDetails";
 
 const screens = {
     Feed: {
@@ -32,11 +34,19 @@ const screens = {
             }
         }
     },
-    Details: {
+    FeedDetails: {
         screen: FeedDetailsScreen,
         navigationOptions: ({navigation}) => {
             return {
-                headerTitle: props => <Header navigation={ navigation } title="Details" />,
+                headerTitle: props => <Header navigation={ navigation } title="FeedDetails" />,
+            }
+        }
+    },
+    QuestionDetails: {
+        screen: QuestionsDetailsScreen,
+        navigationOptions: ({navigation}) => {
+            return {
+                headerTitle: props => <Header navigation={ navigation } title="QuestionDetails" />,
             }
         }
     }
@@ -47,7 +57,7 @@ const MainStack = createStackNavigator(screens, {
         headerLeft: () => null,
         headerStyle: {
             elevation: 0,
-            shadowOpacity: 0
+            shadowOpacity: 0,
         },
     }
 })

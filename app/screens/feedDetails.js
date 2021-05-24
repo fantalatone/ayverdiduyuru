@@ -1,5 +1,4 @@
 import React from "react";
-import { Ionicons } from "@expo/vector-icons"
 import { View, Text, ScrollView, Image, StyleSheet } from "react-native";
 
 export default function FeedDetailsScreen({ navigation }) {
