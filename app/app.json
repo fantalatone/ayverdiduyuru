@@ -2,7 +2,7 @@
   "expo": {
     "name": "AyverdiDuyuru",
     "slug": "ayverdiduyuru",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "orientation": "portrait",
     "userInterfaceStyle": "automatic",
     "icon": "./assets/logo.png",
@@ -19,7 +19,9 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "userInterfaceStyle": "light"
+      "userInterfaceStyle": "light",
+      "icon": "./assets/logo.png",
+      "bundleIdentifier": "com.fantalatone.ayverdiduyuru"
     },
     "android": {
       "adaptiveIcon": {

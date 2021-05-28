@@ -4,3 +4,4 @@ app/.expo
 app/.expo-shared
 backend/node_modules
 backend/uploads
+google-services.json

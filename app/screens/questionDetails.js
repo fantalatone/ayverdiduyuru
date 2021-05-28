@@ -1,15 +1,33 @@
-import React from "react";
-import { View, Text, ScrollView, StyleSheet, Dimensions } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text, ScrollView, StyleSheet } from "react-native";
 import { TouchableNativeFeedback } from "react-native-gesture-handler";
 import variables from "../styles/variables";
 import moment from "moment";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function QuestionsDetailsScreen({ navigation }) {
     var date = new Date(navigation.getParam("date").toString())
     var d = moment(date).format("DD/MM/YYYY")
 
-    const deleteHandler = async () => {
-        await fetch("http://192.168.1.221:7475/soru/sil", {
+    const [baseURL, setBaseURL] = useState("");
+
+    async function load() {
+        try {
+            const _url = await AsyncStorage.getItem("@baseURL");
+            setBaseURL(_url);
+            return _url;
+        } catch (e) {
+            throw e;
+        }
+    }
+
+    useEffect(() => {
+        load().then(url => setBaseURL(url)).catch(err => console.log(err))
+    }, []);
+
+    const deleteHandler = async (_url) => {
+        const url = `http://${_url}:7475/soru/sil`
+        await fetch(url, {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json'
@@ -39,7 +57,9 @@ export default function QuestionsDetailsScreen({ navigation }) {
                 <Text style={styles.title}>{navigation.getParam("question")} ?</Text>
                 <Text style={styles.author} numberOfLines={1}>{navigation.getParam("senderName")} tarafından {d} tarihinde soruldu.</Text>
                 <Text style={styles.warn}>Sorun Hala Cevaplanmamışken Silebilirsin</Text>
-                <TouchableNativeFeedback style={styles.delete} onPress={deleteHandler}>
+                <TouchableNativeFeedback style={styles.delete} onPress={() => {
+                 load().then(url => deleteHandler(url))   
+                }}>
                     <Text style={styles.deleteText}>Sil</Text>
                 </TouchableNativeFeedback>
             </View>

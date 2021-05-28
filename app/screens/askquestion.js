@@ -11,7 +11,22 @@ export default function AskQuestionScreen({ navigation }) {
     const [senderName, setSenderName] = useState("");
     const [senderSchoolNo, setSenderSchoolNo] = useState("");
     const [senderGrade, setSenderGrade] = useState("");
-    
+
+    const [baseURL, setBaseURL] = useState("");
+
+    useEffect(() => {
+        async function load() {
+            try {
+                const _url = await AsyncStorage.getItem("@baseURL");
+                setBaseURL(_url);
+                return _url;
+            } catch (e) {
+                throw e;
+            }
+        }
+        load().then(url => getQuestions(url))
+    }, []);
+
     const [myData, setMyData] = useState([]);
 
     const setParams = async () => {
@@ -23,8 +38,9 @@ export default function AskQuestionScreen({ navigation }) {
         setSenderGrade(grade);
     }
 
-    const getQuestions = async () => {
-        fetch("http://192.168.1.221:7475/soru/my", {
+    const getQuestions = async (_url) => {
+        const url = `http://${_url}:7475/soru/my`
+        fetch(url, {
                 headers: {
                     Accept: 'application/json',
                     'Content-Type': 'application/json'
@@ -45,7 +61,8 @@ export default function AskQuestionScreen({ navigation }) {
     }, []);
 
     const sendQuestion = async () => {
-        await fetch("http://192.168.1.221:7475/soru/yeni", {
+        const url = `http://${baseURL}:7475/soru/yeni`
+        await fetch(url, {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json'

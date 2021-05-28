@@ -1,29 +1,76 @@
 import React, { useState, useEffect } from "react";
-import { FlatList, Image, Text, View, StyleSheet, ActivityIndicator } from "react-native";
+import { FlatList, Image, Text, View, StyleSheet, Modal, Pressable, TextInput } from "react-native";
 import { TouchableNativeFeedback } from "react-native-gesture-handler";
 import { MaterialIcons } from "@expo/vector-icons"
 import variables from "../styles/variables";
 import AnnouncementItem from "../components/ann.item";
 import QAItem from "../components/qa.item";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function FeedScreen({ navigation }) {
 
     const [isLoading, setLoading] = useState(true);
+    const [baseURL, setBaseURL] = useState("");
     const [data, setData] = useState([]);
+    const [visible, setVisible] = useState(true);
 
     useEffect(() => {
-        refreshData().then(data => setData(data))
+        async function load() {
+            try {
+                const _url = await AsyncStorage.getItem("@baseURL");
+                setBaseURL(_url);
+                return _url;
+            } catch (e) {
+                throw e;
+            }
+        }
+        load().then(url => refreshData(url).then(data => setData(data)))
     }, []);
 
-    const refreshData = () => {
-        return fetch('http://192.168.1.221:7475/cek')
+    const refreshData = (_url) => {
+        const url = `http://${_url}:7475/cek`
+        return fetch(url)
             .then((response) => response.json())
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
     }
 
+    const saveBaseURL = async () => {
+        try {
+            await AsyncStorage.setItem("@baseURL", baseURL)
+        } catch (e) {
+            throw e;
+        }
+        setVisible(!visible)
+    }
+
     return (
         <View style={{marginTop: 5}}>
+            <Modal
+                animationType="fade"
+                visible={visible}
+                transparent={true}
+                onRequestClose={() => {
+                    setVisible(!visible);
+                }}
+            >
+                <View style={styles.modalView}>
+                    <Text style={styles.modalText}>[TEST VERSİYONU ÖZELLİĞİ]</Text>
+                    <TextInput 
+                        keyboardType={"default"}
+                        value={baseURL}
+                        onChangeText={setBaseURL}
+                        style={styles.inputField}
+                        placeholder={"Sunucu bağlantı adresi giriniz."}
+                        />
+                    <Pressable
+                        style={[styles.button, styles.buttonClose]}
+                        onPress={() => saveBaseURL()}
+                    >
+                        <Text style={styles.textStyle}>Tamam</Text>
+                    </Pressable>
+                </View>
+            </Modal>
             <FlatList
                 style={{}}
                 data={data}
@@ -86,6 +133,16 @@ const styles = StyleSheet.create({
         fontSize: 15,
         color: variables.textColor
     },
+    inputField: {
+        color: variables.textColor,
+        padding: 10,
+        width: "100%",
+        marginBottom: 15,
+        fontSize: 19,
+        borderBottomColor: "#696969",
+        borderBottomWidth: 3,
+        borderRadius: 10,
+    },
     refreshContainer: {
         alignSelf: "center",
         backgroundColor: variables.primaryColor,
@@ -95,5 +152,37 @@ const styles = StyleSheet.create({
     },
     refresh: {
         padding: 5
+    },
+    modalView: {
+        margin: 20,
+        backgroundColor: "white",
+        borderRadius: 20,
+        padding: 20,
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
+    },
+    button: {
+        borderRadius: 20,
+        padding: 10,
+        elevation: 2
+    },
+    buttonClose: {
+        backgroundColor: "#696969",
+    },
+    textStyle: {
+        color: "white",
+        fontWeight: "bold",
+        textAlign: "center"
+    },
+    modalText: {
+        fontSize: 18,
+        textAlign: "center"
     }
 });
