@@ -58,7 +58,7 @@ export default function QuestionsDetailsScreen({ navigation }) {
                 <Text style={styles.author} numberOfLines={1}>{navigation.getParam("senderName")} tarafından {d} tarihinde soruldu.</Text>
                 <Text style={styles.warn}>Sorun Hala Cevaplanmamışken Silebilirsin</Text>
                 <TouchableNativeFeedback style={styles.delete} onPress={() => {
-                 load().then(url => deleteHandler(url))   
+                 deleteHandler(baseURL)   
                 }}>
                     <Text style={styles.deleteText}>Sil</Text>
                 </TouchableNativeFeedback>

@@ -5,3 +5,7 @@ app/.expo-shared
 backend/node_modules
 backend/uploads
 google-services.json
+expo-notifications
+frontend/public/build
+
+.DS_Store

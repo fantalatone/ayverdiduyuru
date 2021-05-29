@@ -9,7 +9,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function FeedScreen({ navigation }) {
 
-    const [isLoading, setLoading] = useState(true);
     const [baseURL, setBaseURL] = useState("");
     const [data, setData] = useState([]);
     const [visible, setVisible] = useState(true);
@@ -32,7 +31,6 @@ export default function FeedScreen({ navigation }) {
         return fetch(url)
             .then((response) => response.json())
             .catch((error) => console.error(error))
-            .finally(() => setLoading(false));
     }
 
     const saveBaseURL = async () => {
@@ -42,6 +40,7 @@ export default function FeedScreen({ navigation }) {
             throw e;
         }
         setVisible(!visible)
+        refreshData(baseURL).then(data => setData(data))
     }
 
     return (
@@ -88,7 +87,7 @@ export default function FeedScreen({ navigation }) {
                 }}
             />
             <View style={styles.refreshContainer}>
-                <TouchableNativeFeedback style={styles.refresh} onPress={() => refreshData().then(data => setData(data))}>
+                <TouchableNativeFeedback style={styles.refresh} onPress={() => refreshData(baseURL).then(data => setData(data))}>
                     <MaterialIcons name="refresh" size={40} style={{color: "white"}}/>
                 </TouchableNativeFeedback>
             </View>

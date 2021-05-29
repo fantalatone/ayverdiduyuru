@@ -76,7 +76,7 @@ export default function AskQuestionScreen({ navigation }) {
             })
         })
         .then(() => setQuestion(""))
-        .then(() => getQuestions())
+        .then(() => getQuestions(baseURL))
         .catch(err => console.log(err))
     }
 
