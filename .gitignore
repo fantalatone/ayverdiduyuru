@@ -6,6 +6,6 @@ backend/node_modules
 backend/uploads
 google-services.json
 expo-notifications
-frontend/public/build
+frontend/node_modules
 
 .DS_Store

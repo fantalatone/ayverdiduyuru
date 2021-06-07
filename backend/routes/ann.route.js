@@ -86,7 +86,7 @@ router.post("/sil", (req, res) => {
     if (errors.length > 0) { res.status(406); return res.send({ errors }); }
 
     announcement.findOneAndDelete({ _id: id}).catch(err => console.log(err));
-    return res.send(config.successfuldelete());
+    return res.send(200);
 });
 
 module.exports = router;

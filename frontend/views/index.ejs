@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preview App</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+</head>
+<body>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <h1>Gönderi Oluştur</h1>
+                <hr>
+                <form action="http://<%= ip%>:7475/duyuru/yeni" method="POST" enctype="multipart/form-data">
+                
+                    <input type="text" name="title" required placeholder="Başlık : "> <br><br>
+                    <textarea name="content" id="" cols="30" rows="10" required placeholder="İçerik : "></textarea> <br><br>
+                    <input type="file" name="banner" id=""> <br><br>
+
+                    <button onclick="async () => await sendPushNotification()" type="submit" class="btn btn-primary">Oluştur</button>
+
+                </form>
+
+                <h2 class="mt-5">Gönderi Listesi</h2>
+
+                <% anns.forEach(announcement => { %>
+                    <div class="card mb-3">
+                        <% if (announcement.banner) { %>
+                            <img class="card-img-top" src="data:image/<%= announcement.banner.contentType %>;base64,<%= announcement.banner.data %>" alt="">
+                        <% } %>
+                        <div class="card-body">
+                          <h5 class="card-title"><%= announcement.title %></h5>
+                          <p class="card-text"><%- announcement.content %></p>
+                          <p class="card-text"><%= announcement.date %> tarihinde yayımlandı.</p>
+                                <h5>Güncelleme Yap</h5>
+                                <form action="http://<%= ip%>:7475/duyuru/guncelle" class="mt-3" method="POST" enctype="multipart/form-data">
+                                  <input type="text" name="_id" value="<%= announcement._id %>" hidden>
+                                  <input type="text" name="title" placeholder="Başlık : "> <br><br>
+                                  <textarea name="content" id="" rows="5" style="resize: none; width: 100%;" placeholder="İçerik : "></textarea> <br><br>
+                                  <input type="file" name="banner" id=""> <br><br>
+                                  <button type="submit"class="btn btn-primary">Güncelle</button>
+                                </form>
+                                <form action="http://<%= ip%>:7475/duyuru/sil" method="POST">
+                                    <input type="text" name="id" value="<%= announcement._id %>" hidden>
+                                    <button type="submit"class="btn btn-primary mt-2">Sil</button>
+                                </form>
+                        </div>
+                    </div>
+                <% }) %>
+                
+                <br>
+            </div>
+            <div class="col-md-6">
+                <h1>Sorular</h1>
+                <hr>
+    
+                <% qas.forEach(qa => { %>
+                    <div class="card mb-3">
+                        <div class="card-body">
+                          <h5 class="card-title"><%= qa.question %></h5>
+                          <p class="card-text"><%- qa.answer %></p>
+                          <p class="card-text"><%= qa.date %> tarihinde yayımlandı.</p>
+                            <h5>Cevapla</h5>
+                            <form action="http://<%= ip%>:7475/soru/cevapla" method="POST">
+                                <input type="text" name="id" value="<%= qa._id %>" hidden>
+                                <textarea name="answer" rows="5" style="resize: none; width: 100%;"></textarea><br>
+                                <button type="submit"class="btn btn-primary mt-2">Cevapla</button>
+                            </form>
+                            <form action="http://<%= ip%>:7475/soru/sil" method="POST">
+                                <input type="text" name="id" value="<%= qa._id %>" hidden>
+                                <button type="submit"class="btn btn-primary mt-2">Sil</button>
+                            </form>
+                        </div>
+                    </div>
+                <% }) %>
+                </div>
+    
+                <form action="http://<%= ip%>:7475/soru/my" method="POST">
+                    <input type="text" name="senderSchoolNo">
+                    <button type="submit">Göndser</button>
+                </form>
+            </div>
+        </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+    <script>
+        // const ip = prompt("[DEBUG] IP", "192.168.1.221");
+
+        // const forms = document.querySelectorAll("form");
+        // forms.forEach(f => {
+        //     const ipd = f.getAttribute("action").substring(16);
+        //     f.setAttribute("action", ip + ipd);
+        // });
+        
+    </script>
+    
+</body>
+</html>
