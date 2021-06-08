@@ -38,7 +38,7 @@ router.post("/my", (req, res) => {
 });
 
 router.post("/yeni", (req, res) => {
-    const { question, senderName, senderSchoolNo, senderGrade } = req.body;
+    const { question, senderName, senderSchoolNo, senderGrade, redirectUrl } = req.body;
     let errors = [];
     if (!question) { errors.push("Yeni bir soru sorabilmek için lütfen içerik giriniz."); }    
     if (errors.length > 0) { res.status(406); return res.send({ errors }); }
@@ -52,11 +52,14 @@ router.post("/yeni", (req, res) => {
         date: Date.now()
     });
     newQA.save();
-    res.send("OK!");
+    if (req.useragent.isMobile) {
+        return res.send("OK");
+    }
+    return res.redirect(redirectUrl);
 });
 
 router.post("/cevapla", (req, res) => {
-    const { id, answer } = req.body;
+    const { id, answer, redirectUrl } = req.body;
     let errors = [];
     if (!answer || !id) { errors.push("Soru ID'si veya cevap boş olarak soru cevaplanamaz"); }    
     if (errors.length > 0) { res.status(406); return res.send({ errors }); }
@@ -67,17 +70,23 @@ router.post("/cevapla", (req, res) => {
 
     QA.findOneAndUpdate({ _id : id }, update, { upsert: true, useFindAndModify: false })
         .catch(err => console.log(err));
-    return res.send("Güzel Cevap")
+    if (req.useragent.isMobile) {
+        return res.send("Güzel Cevap");
+    }
+    return res.redirect(redirectUrl);
 });
 
 router.post("/sil", (req, res) => {
-    const { id } = req.body;
+    const { id, redirectUrl } = req.body;
     let errors = [];
     if (!id) { errors.push("Soru ID'si olmadan silinemez."); }    
     if (errors.length > 0) { res.status(406); return res.send({ errors }); }
 
-    QA.findByIdAndDelete({_id : id}).then(()=>{
-        res.send("Başarılı bir şekilde silindi.")
+    QA.findOneAndRemove({_id : id}).then(()=>{
+        if (req.useragent.isMobile) {
+            return res.send("Silindi");
+        }
+        return res.redirect(redirectUrl);
     }).catch(err => console.log(err))
 })
 

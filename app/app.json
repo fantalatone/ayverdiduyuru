@@ -1,13 +1,19 @@
 {
   "expo": {
-    "name": "AyverdiDuyuru",
+    "name": "Ayverdi Mobil Uygulama",
     "slug": "ayverdiduyuru",
-    "version": "2.0.0",
+    "version": "2.2.0",
     "orientation": "portrait",
     "userInterfaceStyle": "automatic",
     "icon": "./assets/logo.png",
     "splash": {
       "image": "./assets/logo.png",
+      "ldpi": "./assets/logo.png",
+      "mdpi": "./assets/logo.png",
+      "hdpi": "./assets/logo.png",
+      "xhdpi": "./assets/logo.png",
+      "xxhdpi": "./assets/logo.png",
+      "xxxhdpi": "./assets/logo.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -21,7 +27,7 @@
       "supportsTablet": true,
       "userInterfaceStyle": "light",
       "icon": "./assets/logo.png",
-      "bundleIdentifier": "com.fantalatone.ayverdiduyuru"
+      "bundleIdentifier": "com.fantalatone.ayverdimobiluygulama"
     },
     "android": {
       "adaptiveIcon": {
@@ -29,7 +35,7 @@
         "backgroundColor": "#FFFFFF"
       },
       "userInterfaceStyle": "light",
-      "package": "com.fantalatone.ayverdiduyuru"
+      "package": "com.fantalatone.ayverdimobiluygulama"
     },
     "web": {}
   }

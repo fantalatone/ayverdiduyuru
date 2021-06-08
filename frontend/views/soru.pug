@@ -1,0 +1,73 @@
+doctype html
+head
+    meta(charset='UTF-8')
+    meta(http-equiv='X-UA-Compatible' content='IE=edge')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    title Arayüz
+    link(rel='apple-touch-icon' sizes='57x57' href='icon/apple-icon-57x57.png')
+    link(rel='apple-touch-icon' sizes='60x60' href='icon/apple-icon-60x60.png')
+    link(rel='apple-touch-icon' sizes='72x72' href='icon/apple-icon-72x72.png')
+    link(rel='apple-touch-icon' sizes='76x76' href='icon/apple-icon-76x76.png')
+    link(rel='apple-touch-icon' sizes='114x114' href='icon/apple-icon-114x114.png')
+    link(rel='apple-touch-icon' sizes='120x120' href='icon/apple-icon-120x120.png')
+    link(rel='apple-touch-icon' sizes='144x144' href='icon/apple-icon-144x144.png')
+    link(rel='apple-touch-icon' sizes='152x152' href='icon/apple-icon-152x152.png')
+    link(rel='apple-touch-icon' sizes='180x180' href='icon/apple-icon-180x180.png')
+    link(rel='icon' type='image/png' sizes='192x192' href='icon/android-icon-192x192.png')
+    link(rel='icon' type='image/png' sizes='32x32' href='icon/favicon-32x32.png')
+    link(rel='icon' type='image/png' sizes='96x96' href='icon/favicon-96x96.png')
+    link(rel='icon' type='image/png' sizes='16x16' href='icon/favicon-16x16.png')
+    link(rel='manifest' href='icon/manifest.json')
+    meta(name='msapplication-TileColor' content='#ffffff')
+    meta(name='msapplication-TileImage' content='icon/ms-icon-144x144.png')
+    meta(name='theme-color' content='#ffffff')
+    script(src="https://kit.fontawesome.com/8891625e88.js" crossorigin="anonymous") 
+    link(href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous")
+    link(rel="stylesheet", href="/css/duyuru.css")
+body 
+    .container-fluid
+        .row
+            .col-md-1.back
+                a(href="/")
+                    i.fas.fa-long-arrow-alt-left
+            .col-md-11.h-100
+                h1 Sorular
+                hr
+                .row
+                    .col-md-6
+                        .forms-container
+                            .title-side
+                                h2 Cevap Ver
+                                a.btn.btn-primary.text-white.collapseHref#new(data-bs-toggle='collapse' onclick="collapseEmojis('new')" href='#newCollapse' role='button' aria-expanded='false' aria-controls='newCollapse')
+                                    i.fas.fa-chevron-up
+                            div.collapse.show#newCollapse
+                                form(action="http://" + ip +  ":7475/soru/cevapla" method="POST")
+                                    input(type="text" hidden name="redirectUrl" value="http://localhost:8000/soru")
+                                    input#id.de(type="text" hidden name="id" value="")
+                                    label.form-label(for="answer") Cevap
+                                    textarea.form-control#answer(disabled type="text", required, name="answer" placeholder="Örn. Okulların Yayınlanan Yeni Kararlar İle Ertelenmiştir.", rows=5)
+                                    button.btn.btn-primary.text-white.w-100#answer(disabled type="submit") Cevapla
+                            hr
+                            .title-side
+                                h2 Sil
+                                a.btn.btn-primary.text-white.collapseHref#delete(data-bs-toggle='collapse' onclick="collapseEmojis('delete')" href='#deleteCollapse' role='button' aria-expanded='false' aria-controls='deleteCollapse')
+                                    i.fas.fa-chevron-up
+                            div.collapse.show#deleteCollapse
+                                form.delete-form(action="http://" + ip +  ":7475/soru/sil" method="POST")
+                                    input(type="text" hidden name="redirectUrl" value="http://localhost:8000/soru")
+                                    input#iddelete(type="text" hidden name="id" value="")
+                                    button.btn.btn-danger.w-100#delete(type="submit" disabled) Sil
+                    .col-md-6
+                        .list-announcement
+                            each q, i in questions
+                                .card.my-3(onclick=`editCard(${i})`)
+                                    .card-body
+                                        p(style="display: none")= q._id
+                                        h5.card-title= q.question
+                                        - let d = new Date(q.date)
+                                        - let date = d.toLocaleString("tr-TR", { day: 'numeric', month: 'long', year: 'numeric'})
+                                        h6.card-subtitle #{date} tarihinde #{q.senderName} tarafından soruldu.
+                                        p.card-text Daha Önce Verilmiş Cevap: #{q.answer}
+
+    script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js' integrity='sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4' crossorigin='anonymous')
+    script(src="./js/soru.js") 

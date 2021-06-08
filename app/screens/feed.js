@@ -44,7 +44,7 @@ export default function FeedScreen({ navigation }) {
     }
 
     return (
-        <View style={{marginTop: 5}}>
+        <View style={styles.container}>
             <Modal
                 animationType="fade"
                 visible={visible}
@@ -70,6 +70,11 @@ export default function FeedScreen({ navigation }) {
                     </Pressable>
                 </View>
             </Modal>
+            <View style={styles.refreshContainer}>
+                <TouchableNativeFeedback style={styles.refresh} onPress={() => refreshData(baseURL).then(data => setData(data))}>
+                    <MaterialIcons name="refresh" size={40} style={{color: "white"}}/>
+                </TouchableNativeFeedback>
+            </View>
             <FlatList
                 style={{}}
                 data={data}
@@ -86,17 +91,17 @@ export default function FeedScreen({ navigation }) {
                     )
                 }}
             />
-            <View style={styles.refreshContainer}>
-                <TouchableNativeFeedback style={styles.refresh} onPress={() => refreshData(baseURL).then(data => setData(data))}>
-                    <MaterialIcons name="refresh" size={40} style={{color: "white"}}/>
-                </TouchableNativeFeedback>
-            </View>
         </View>
         
     );
 }
 
 const styles = StyleSheet.create({
+    container: {
+        position: "relative",
+        marginTop: 5,
+        flex: 1
+    },
     item: {
         backgroundColor: "white",
         overflow: "hidden",
@@ -144,10 +149,12 @@ const styles = StyleSheet.create({
     },
     refreshContainer: {
         alignSelf: "center",
+        position: "absolute",
         backgroundColor: variables.primaryColor,
         borderRadius: 50,
         overflow: "hidden",
-        bottom: 75
+        zIndex: 10,
+        bottom: 25
     },
     refresh: {
         padding: 5

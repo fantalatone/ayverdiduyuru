@@ -1,0 +1,29 @@
+.row {
+    height: 100vh;
+    margin: 0;
+}
+.col-md-6 {
+    padding: 0;
+}
+.side a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    color: white;
+    text-decoration: none;
+    font-size: 3.5rem;
+    font-weight: bold;
+    transition: font-size 100ms ease-in-out;
+}
+.side.red a{
+    background-color: #EE9910;
+}
+.side.blue a{
+    background-color: white;
+    color: #EE9910;
+}
+.side:hover a {
+    font-size: 4.5rem;
+}

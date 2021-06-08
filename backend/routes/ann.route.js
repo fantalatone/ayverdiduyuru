@@ -16,7 +16,7 @@ router.get("/cek", (req, res) => {
 });
 
 router.post("/yeni", upload.single("banner"), (req, res) => {
-    const { title, content } = req.body;
+    const { title, content, redirectUrl } = req.body;
     let errors = [];
     if (!title || !content) { errors.push("Duyuru oluşturabilmek için gerekli olan tüm alanları doldurmalısınız."); }    
     if (errors.length > 0) { res.status(406); return res.send({ errors }); }
@@ -43,12 +43,15 @@ router.post("/yeni", upload.single("banner"), (req, res) => {
         });
 
         newAnn.save();
-        return res.send(config.successfulnew(title, content));
+        if (req.useragent.isMobile) {
+            return res.send(config.successfulnew(title, content));
+        }
+        return res.redirect(redirectUrl);
     }).catch(err => {throw err});
 });
 
 router.post("/guncelle", upload.single("banner"), (req, res) => {
-    const { _id, title, content } = req.body;
+    const { _id, title, content, redirectUrl } = req.body;
     let errors = [];
     if (!_id) { errors.push("Duyuruları güncellemek için id'yi girmek zorundasınız."); }    
     if (errors.length > 0) { res.status(406); return res.send({ errors }); }
@@ -75,18 +78,24 @@ router.post("/guncelle", upload.single("banner"), (req, res) => {
         announcement.findOneAndUpdate({ _id: _id }, update, { upsert: true, useFindAndModify: false })
             .catch(err => {throw err;});
         
-        return res.send(config.successfulupdate(title, content));
+        if (req.useragent.isMobile) {
+            return res.send(config.successfulupdate(title, content)); 
+        }
+        return res.redirect(redirectUrl);
     }).catch(err => {throw err});
 });
 
 router.post("/sil", (req, res) => {
-    const { id } = req.body;
+    const { id, redirectUrl } = req.body;
     let errors = [];
     if (!id) errors.push("Duyuru ID'si olmadan duyuruları silemezsiniz.");
     if (errors.length > 0) { res.status(406); return res.send({ errors }); }
 
     announcement.findOneAndDelete({ _id: id}).catch(err => console.log(err));
-    return res.send(200);
+    if (req.useragent.isMobile) {
+        return res.sendStatus(200) 
+    }
+    return res.redirect(redirectUrl);
 });
 
 module.exports = router;

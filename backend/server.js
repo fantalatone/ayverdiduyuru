@@ -1,8 +1,10 @@
 const express = require("express"); // ANA MODÜL
 const api = express();
+const useragent = require("express-useragent");
 
 require("./database");
 
+api.use(useragent.express());
 api.use(express.json());
 api.use(express.urlencoded({extended: true}))
 

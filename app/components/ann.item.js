@@ -8,7 +8,7 @@ export default function AnnouncementItem({ navigation, item }) {
     return (
         <View style={styles.item}>
             {item.banner !== undefined ? (
-                <TouchableNativeFeedback onPress={() => navigation.navigate("Details", item)}> // TODO:DETAİLS CHANGE TO FEEDDETAİLS
+                <TouchableNativeFeedback onPress={() => navigation.navigate("FeedDetails", item)}>
                     <Image source={{uri: `data:${item.banner.contentType};base64,${item.banner.data}`}} style={styles.image} />
                     <View style={styles.ccontainer}>
                         <Text numberOfLines={1} style={styles.title}>{item.title}</Text>

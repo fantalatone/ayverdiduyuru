@@ -54,7 +54,7 @@ export default function ProfileScreen() {
                 >
                     <View style={styles.centeredView}>
                         <View style={styles.modalView}>
-                            <Text style={styles.modalText}>Başarıyla Kaydedildi! 👍</Text>
+                            <Text style={styles.modalText}>Başarıyla Kaydedildi!</Text>
                             <Pressable
                                 style={[styles.button, styles.buttonClose]}
                                 onPress={() => setVisible(!visible)}

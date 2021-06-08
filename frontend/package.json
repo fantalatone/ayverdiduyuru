@@ -1,5 +1,5 @@
 {
-  "name": "apipreviewtest",
+  "name": "frontend",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
@@ -10,10 +10,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "ejs": "^3.1.6",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
-    "express-ejs-layouts": "^2.5.0",
     "node-fetch": "^2.6.1",
-    "showdown": "^1.9.1"
+    "pug": "^3.0.2"
   }
 }
