@@ -8,7 +8,7 @@ app.set("view engine", "pug")
 app.use(express.static('public'))
 
 function getAnnouncements() {
-    return fetch(`http://192.168.1.23:7475/duyuru/cek`, {method: "get", mode:"no-cors"})
+    return fetch(`http://${url}:7475/duyuru/cek`, {method: "get", mode:"no-cors"})
     .then(response => response.json())
     .then(data => {
         const sortByDate = data => {
@@ -23,7 +23,7 @@ function getAnnouncements() {
 }
 
 function getQuestions() {
-    return fetch(`http://192.168.1.23:7475/soru/cek`, {method: "get", mode:"no-cors"})
+    return fetch(`http://${url}:7475/soru/cek`, {method: "get", mode:"no-cors"})
     .then(response => response.json())
     .then(data => {
         const sortByDate = data => {
